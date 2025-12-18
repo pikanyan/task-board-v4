@@ -4,3 +4,4 @@ from .department import Department
 from .item import Item
 from .department_item_assignment import DepartmentItemAssignment
 from .department_item_assignment_component import DepartmentItemAssignmentComponent
+from .order_header import OrderHeader
