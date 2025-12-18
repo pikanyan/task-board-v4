@@ -2,3 +2,4 @@
 from .customer import Customer
 from .department import Department
 from .item import Item
+from .department_item_assignment import DepartmentItemAssignment
