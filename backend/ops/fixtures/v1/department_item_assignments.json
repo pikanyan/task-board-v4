@@ -1,0 +1,81 @@
+[
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 1,
+        "fields": { "department": 1, "item": 1 }
+    },
+
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 2,
+        "fields": { "department": 2, "item": 2 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 3,
+        "fields": { "department": 2, "item": 3 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 4,
+        "fields": { "department": 2, "item": 4 }
+    },
+
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 5,
+        "fields": { "department": 2, "item": 5 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 6,
+        "fields": { "department": 2, "item": 6 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 7,
+        "fields": { "department": 2, "item": 7 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 8,
+        "fields": { "department": 2, "item": 8 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 9,
+        "fields": { "department": 2, "item": 9 }
+    },
+
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 10,
+        "fields": { "department": 3, "item": 9 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 11,
+        "fields": { "department": 4, "item": 6 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 12,
+        "fields": { "department": 4, "item": 7 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 13,
+        "fields": { "department": 5, "item": 8 }
+    },
+
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 14,
+        "fields": { "department": 4, "item": 3 }
+    },
+    {
+        "model": "ops.departmentitemassignment",
+        "pk": 15,
+        "fields": { "department": 4, "item": 4 }
+    }
+]

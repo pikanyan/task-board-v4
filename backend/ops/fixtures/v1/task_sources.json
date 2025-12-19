@@ -1,0 +1,137 @@
+[
+    {
+        "model": "ops.tasksource",
+        "pk": 1,
+        "fields": {
+            "task_key": 1,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 2,
+        "fields": {
+            "task_key": 2,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 3,
+        "fields": {
+            "task_key": 3,
+            "source_order_line": 1,
+            "contributed_units": 2
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 4,
+        "fields": {
+            "task_key": 4,
+            "source_order_line": 1,
+            "contributed_units": 2
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 5,
+        "fields": {
+            "task_key": 5,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 6,
+        "fields": {
+            "task_key": 6,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 7,
+        "fields": {
+            "task_key": 7,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 8,
+        "fields": {
+            "task_key": 8,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 9,
+        "fields": {
+            "task_key": 9,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 10,
+        "fields": {
+            "task_key": 10,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 11,
+        "fields": {
+            "task_key": 11,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 12,
+        "fields": {
+            "task_key": 12,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 13,
+        "fields": {
+            "task_key": 13,
+            "source_order_line": 1,
+            "contributed_units": 1
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 14,
+        "fields": {
+            "task_key": 14,
+            "source_order_line": 1,
+            "contributed_units": 2
+        }
+    },
+    {
+        "model": "ops.tasksource",
+        "pk": 15,
+        "fields": {
+            "task_key": 15,
+            "source_order_line": 1,
+            "contributed_units": 2
+        }
+    }
+]
