@@ -2,7 +2,12 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from django.utils import timezone
+from django.utils.formats import date_format
+
 from .customer import Customer
+
+from ops.utils.dt import format_dt_jst 
 
 
 
@@ -20,7 +25,7 @@ class OrderHeader(models.Model):
 
 
     def __str__(self) -> str:
-        return f"{self.customer.name}: {self.pickup_at}"
+        return f"{self.customer.name}: {format_dt_jst(self.pickup_at)}"
 
 
 

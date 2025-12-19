@@ -29,7 +29,7 @@ def test_item_can_be_created_and_string_is_name():
     assert item.name == name
     assert item.pack_g == pack_g
 
-    assert str(item) == name
+    assert str(item) == f"{name} {pack_g} g"
 
 
 

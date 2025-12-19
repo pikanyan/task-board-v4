@@ -31,7 +31,7 @@ def test_department_item_assignment_can_be_created_and_string_is_readable():
     assert assignment.item_id == item.id
 
 
-    assert str(assignment) == f"{department.name}: {item.name}"
+    assert str(assignment) == f"{department.name}: {item.name} {item.pack_g} g"
 
 
 

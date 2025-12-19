@@ -1,5 +1,6 @@
 # backend/ops/tests/models/test_task_key_model.py
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pytest
 from django.core.exceptions import ValidationError
@@ -12,6 +13,12 @@ from ops.models import Department, Item, DepartmentItemAssignment, TaskKey
 def _dt(y, m, d, hh, mm):
     # テスト用の aware datetime を作る
     return timezone.make_aware(datetime(y, m, d, hh, mm))
+
+
+
+def _fmt_tokyo(dt):
+    # __str__ の表示(= JSTで YYYY-MM-DD HH:MM)に合わせる
+    return dt.astimezone(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M")
 
 
 
@@ -54,7 +61,7 @@ def test_task_key_can_be_created_and_string_is_readable():
     assert task_key.assignment_id == assignment.id
     assert task_key.pickup_at == pickup_at
 
-    assert str(task_key) == f"{assignment}: {pickup_at}"
+    assert str(task_key) == f"{assignment} {_fmt_tokyo(pickup_at)}"
 
 
 

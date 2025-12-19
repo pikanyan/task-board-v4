@@ -12,7 +12,7 @@ class Item(models.Model):
 
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name} {self.pack_g} g"
 
 
 
