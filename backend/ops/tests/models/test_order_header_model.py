@@ -1,5 +1,6 @@
 # backend/ops/tests/models/test_order_header_model.py
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pytest
 from django.core.exceptions import ValidationError
@@ -12,6 +13,12 @@ from ops.models import Customer, OrderHeader
 def _dt(y, m, d, hh, mm):
     # テスト用の aware datetime を作る
     return timezone.make_aware(datetime(y, m, d, hh, mm))
+
+
+
+def _fmt_tokyo(dt):
+    # __str__ の表示(= JSTで YYYY-MM-DD HH:MM)に合わせる
+    return dt.astimezone(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M")
 
 
 
@@ -50,7 +57,7 @@ def test_order_header_can_be_created_and_string_is_readable():
 
 
     # 表示は「誰の注文で、いつ引き渡しなのか」が一目で分かること
-    assert str(order) == f"{customer.name}: {pickup_at}"
+    assert str(order) == f"{customer.name}: {_fmt_tokyo(pickup_at)}"
 
 
 

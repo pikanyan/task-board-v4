@@ -25,7 +25,7 @@ class DepartmentItemAssignment(models.Model):
 
 
     def __str__(self) -> str:
-        return f"{self.department.name}: {self.item.name}"
+        return f"{self.department.name}: {self.item.name} {self.item.pack_g} g"
 
 
 

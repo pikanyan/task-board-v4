@@ -2,7 +2,12 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from django.utils import timezone
+from django.utils.formats import date_format
+
 from .department_item_assignment import DepartmentItemAssignment
+
+from ops.utils.dt import format_dt_jst 
 
 
 
@@ -19,7 +24,7 @@ class TaskKey(models.Model):
 
 
     def __str__(self) -> str:
-        return f"{self.assignment}: {self.pickup_at}"
+        return f"{self.assignment} {format_dt_jst(self.pickup_at)}"
 
 
 
