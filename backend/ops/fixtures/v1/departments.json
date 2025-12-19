@@ -1,0 +1,37 @@
+[
+    {
+        "model": "ops.department",
+        "pk": 1,
+        "fields": {
+            "name": "ライン班"
+        }
+    },
+    {
+        "model": "ops.department",
+        "pk": 2,
+        "fields": {
+            "name": "梱包班"
+        }
+    },
+    {
+        "model": "ops.department",
+        "pk": 3,
+        "fields": {
+            "name": "いも班"
+        }
+    },
+    {
+        "model": "ops.department",
+        "pk": 4,
+        "fields": {
+            "name": "大葉班"
+        }
+    },
+    {
+        "model": "ops.department",
+        "pk": 5,
+        "fields": {
+            "name": "入荷班"
+        }
+    }
+]

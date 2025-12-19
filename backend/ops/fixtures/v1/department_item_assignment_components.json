@@ -1,0 +1,133 @@
+[
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 1,
+        "fields": {
+            "parent_department_item_assignment": 1,
+            "child_department_item_assignment": 2,
+            "child_units_per_parent_unit": 1
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 2,
+        "fields": {
+            "parent_department_item_assignment": 1,
+            "child_department_item_assignment": 3,
+            "child_units_per_parent_unit": 2
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 3,
+        "fields": {
+            "parent_department_item_assignment": 1,
+            "child_department_item_assignment": 4,
+            "child_units_per_parent_unit": 2
+        }
+    },
+
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 4,
+        "fields": {
+            "parent_department_item_assignment": 2,
+            "child_department_item_assignment": 5,
+            "child_units_per_parent_unit": 1
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 5,
+        "fields": {
+            "parent_department_item_assignment": 2,
+            "child_department_item_assignment": 6,
+            "child_units_per_parent_unit": 1
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 6,
+        "fields": {
+            "parent_department_item_assignment": 2,
+            "child_department_item_assignment": 7,
+            "child_units_per_parent_unit": 1
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 7,
+        "fields": {
+            "parent_department_item_assignment": 2,
+            "child_department_item_assignment": 8,
+            "child_units_per_parent_unit": 1
+        }
+    },
+
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 8,
+        "fields": {
+            "parent_department_item_assignment": 5,
+            "child_department_item_assignment": 9,
+            "child_units_per_parent_unit": 1
+        }
+    },
+
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 9,
+        "fields": {
+            "parent_department_item_assignment": 9,
+            "child_department_item_assignment": 10,
+            "child_units_per_parent_unit": 1
+        }
+    },
+
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 10,
+        "fields": {
+            "parent_department_item_assignment": 6,
+            "child_department_item_assignment": 11,
+            "child_units_per_parent_unit": 1
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 11,
+        "fields": {
+            "parent_department_item_assignment": 7,
+            "child_department_item_assignment": 12,
+            "child_units_per_parent_unit": 1
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 12,
+        "fields": {
+            "parent_department_item_assignment": 8,
+            "child_department_item_assignment": 13,
+            "child_units_per_parent_unit": 1
+        }
+    },
+
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 13,
+        "fields": {
+            "parent_department_item_assignment": 3,
+            "child_department_item_assignment": 14,
+            "child_units_per_parent_unit": 1
+        }
+    },
+    {
+        "model": "ops.departmentitemassignmentcomponent",
+        "pk": 14,
+        "fields": {
+            "parent_department_item_assignment": 4,
+            "child_department_item_assignment": 15,
+            "child_units_per_parent_unit": 1
+        }
+    }
+]

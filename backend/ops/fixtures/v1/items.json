@@ -1,0 +1,50 @@
+[
+    {
+        "model": "ops.item",
+        "pk": 1,
+        "fields": {
+            "name": "ポテトサラダセット",
+            "pack_g": 1000
+        }
+    },
+    {
+        "model": "ops.item",
+        "pk": 2,
+        "fields": { "name": "ポテトサラダベース", "pack_g": 800 }
+    },
+    {
+        "model": "ops.item",
+        "pk": 3,
+        "fields": { "name": "レタス (カット)", "pack_g": 50 }
+    },
+    {
+        "model": "ops.item",
+        "pk": 4,
+        "fields": { "name": "赤玉ねぎ (スライス)", "pack_g": 50 }
+    },
+    {
+        "model": "ops.item",
+        "pk": 5,
+        "fields": { "name": "じゃがいも (マッシュ)", "pack_g": 550 }
+    },
+    {
+        "model": "ops.item",
+        "pk": 6,
+        "fields": { "name": "人参 (いちょう切り)", "pack_g": 80 }
+    },
+    {
+        "model": "ops.item",
+        "pk": 7,
+        "fields": { "name": "きゅうり (小口切り)", "pack_g": 70 }
+    },
+    {
+        "model": "ops.item",
+        "pk": 8,
+        "fields": { "name": "ハム (短冊切り)", "pack_g": 100 }
+    },
+    {
+        "model": "ops.item",
+        "pk": 9,
+        "fields": { "name": "じゃがいも (乱切り)", "pack_g": 550 }
+    }
+]

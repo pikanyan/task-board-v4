@@ -1,0 +1,16 @@
+[
+    {
+        "model": "ops.customer",
+        "pk": 1,
+        "fields": {
+            "name": "オークワ 田原本店"
+        }
+    },
+    {
+        "model": "ops.customer",
+        "pk": 2,
+        "fields": {
+            "name": "トライアル 天理店"
+        }
+    }
+]
