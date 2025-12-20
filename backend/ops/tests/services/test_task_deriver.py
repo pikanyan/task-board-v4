@@ -6,6 +6,7 @@ from ops.models.customer import Customer
 from ops.models.department import Department
 from ops.models.item import Item
 from ops.models.department_item_assignment import DepartmentItemAssignment
+from ops.models.department_item_assignment_component import DepartmentItemAssignmentComponent
 from ops.models.order_header import OrderHeader
 from ops.models.order_line import OrderLine
 from ops.models.task import Task
@@ -41,3 +42,62 @@ def test_derive_tasks_creates_root_task_only():
     task = Task.objects.get(assignment=assignment, pickup_at=pickup_at)
 
     assert task.required_units == 1
+
+
+
+
+@pytest.mark.django_db
+def test_derive_tasks_expands_components_one_level():
+    # Arrange
+    dept_line = Department.objects.create(name="ライン班")
+    dept_pack = Department.objects.create(name="梱包班")
+
+    item_set = Item.objects.create(name="ポテトサラダセット", pack_g=1000)
+    item_base = Item.objects.create(name="ポテトサラダベース", pack_g=800)
+    item_lettuce = Item.objects.create(name="レタス (カット)", pack_g=50)
+
+
+
+    asg_set = DepartmentItemAssignment.objects.create(department=dept_line, item=item_set)
+    asg_base = DepartmentItemAssignment.objects.create(department=dept_pack, item=item_base)
+    asg_lettuce = DepartmentItemAssignment.objects.create(department=dept_pack, item=item_lettuce)
+
+
+
+    DepartmentItemAssignmentComponent.objects.create\
+    (
+        parent_department_item_assignment=asg_set,
+        child_department_item_assignment=asg_base,
+        child_units_per_parent_unit=1,
+    )
+
+    DepartmentItemAssignmentComponent.objects.create\
+    (
+        parent_department_item_assignment=asg_set,
+        child_department_item_assignment=asg_lettuce,
+        child_units_per_parent_unit=2,
+    )
+
+
+
+    customer = Customer.objects.create(name="オークワ 田原本店")
+
+    pickup_at = timezone.now()
+
+    header = OrderHeader.objects.create(customer=customer, ordered_at=pickup_at, pickup_at=pickup_at)
+
+    OrderLine.objects.create(order_header=header, product_item=item_set, quantity_units=3)
+
+
+
+    # Act
+    derive_tasks_for_order_header(order_header_id=header.id)
+
+
+
+    # Assert
+    assert Task.objects.get(assignment=asg_set, pickup_at=pickup_at).required_units == 3
+
+    assert Task.objects.get(assignment=asg_base, pickup_at=pickup_at).required_units == 3
+    
+    assert Task.objects.get(assignment=asg_lettuce, pickup_at=pickup_at).required_units == 6

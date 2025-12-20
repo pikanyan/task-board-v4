@@ -1,8 +1,10 @@
-# backend/ops/tests/services/task_deriver.py
+# backend/ops/services/task_deriver.py
+from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.db import transaction
 
 from ops.models.department_item_assignment import DepartmentItemAssignment
+from ops.models.department_item_assignment_component import DepartmentItemAssignmentComponent
 from ops.models.order_header import OrderHeader
 from ops.models.task import Task
 
@@ -22,6 +24,7 @@ derive_tasks_for_order_header(order_header_id=h.id)
 
 Task.objects.filter(pickup_at=h.pickup_at).order_by("assignment_id").values("assignment_id","required_units")
 """
+
 
 
 """
@@ -59,6 +62,11 @@ def derive_tasks_for_order_header(*, order_header_id: int) -> None:
 
 
 
+    # (assignment_id -> required_units) を集計してから Task を upsert
+    required_by_assignment_id: dict[int, int] = defaultdict(int)
+
+
+
     for line in header.lines.all():
         # filter() は検索条件を作成しただけであり
         # 1 件のレコードは未確定
@@ -75,20 +83,53 @@ def derive_tasks_for_order_header(*, order_header_id: int) -> None:
 
 
         # get() でレコードを 1 件取得
-        assignment = qs.get()
+        parent_asg = qs.get()
+
+
+        # 上書きではなく加算
+        # 複数行や将来の合算に耐える
+        required_by_assignment_id[parent_asg.id] += line.quantity_units
 
 
 
-        # 既存があれば上書き
-        Task.objects.update_or_create\
+        # {1: 3}
+        # print(required_by_assignment_id)
+
+
+
+        # Component 1 段だけ展開
+        for comp in\
         (
-            # レコードを探す為の複合 key (assignment, pickup_at)
-            assignment=assignment,
-            pickup_at=pickup_at,
+            DepartmentItemAssignmentComponent.objects
 
-            # 値を更新
-            defaults={"required_units": line.quantity_units},
-        )
+            # FK で繋がっている相手を JOIN で先取りし
+            # 追加の SQL を防止
+            .select_related("child_department_item_assignment")
+
+            .filter(parent_department_item_assignment=parent_asg)
+        ):
+            child_asg = comp.child_department_item_assignment
+
+            required_by_assignment_id[child_asg.id] += line.quantity_units * comp.child_units_per_parent_unit
+
+
+
+        # {1: 3, 2: 3, 3: 6}
+        # print(required_by_assignment_id)
+
+
+
+         # 集計結果を Task に反映
+        for assignment_id, required_units in required_by_assignment_id.items():
+            Task.objects.update_or_create\
+            (
+                # レコードを探す為の複合 key (assignment, pickup_at)
+                assignment_id=assignment_id,
+                pickup_at=pickup_at,
+
+                # 値を更新
+                defaults={"required_units": required_units},
+            )
 
 
 
