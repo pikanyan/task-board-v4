@@ -86,9 +86,14 @@ def derive_tasks_for_order_header(*, order_header_id: int) -> None:
         parent_asg = qs.get()
 
 
+
+        line_units = line.quantity_units
+
         # 上書きではなく加算
         # 複数行や将来の合算に耐える
-        required_by_assignment_id[parent_asg.id] += line.quantity_units
+
+        # 0 段目: root
+        required_by_assignment_id[parent_asg.id] += line_units
 
 
 
@@ -97,24 +102,40 @@ def derive_tasks_for_order_header(*, order_header_id: int) -> None:
 
 
 
-        # Component 1 段だけ展開
-        for comp in\
+        # 1 段目: child
+        comps_lv1 =\
         (
             DepartmentItemAssignmentComponent.objects
 
             # FK で繋がっている相手を JOIN で先取りし
             # 追加の SQL を防止
             .select_related("child_department_item_assignment")
-
             .filter(parent_department_item_assignment=parent_asg)
-        ):
-            child_asg = comp.child_department_item_assignment
+        )
+        for c1 in comps_lv1:
+            child_asg = c1.child_department_item_assignment
 
-            required_by_assignment_id[child_asg.id] += line.quantity_units * comp.child_units_per_parent_unit
+            child_units = line_units * c1.child_units_per_parent_unit
+
+            required_by_assignment_id[child_asg.id] += child_units
 
 
 
-        # {1: 3, 2: 3, 3: 6}
+            # 2 段目: grandchild
+            comps_lv2 =\
+            (
+                DepartmentItemAssignmentComponent.objects
+                .select_related("child_department_item_assignment")
+                .filter(parent_department_item_assignment=child_asg)
+            )
+            for c2 in comps_lv2:
+                grand_asg = c2.child_department_item_assignment
+
+                required_by_assignment_id[grand_asg.id] += child_units * c2.child_units_per_parent_unit
+
+
+
+        # {1: 3, 2: 3, 3: 3}
         # print(required_by_assignment_id)
 
 
