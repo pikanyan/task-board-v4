@@ -19,7 +19,6 @@ from ops import models
         models.DepartmentItemAssignmentComponent,
         models.OrderHeader,
         models.OrderLine,
-        models.TaskKey,
         models.Task,
     ],
 )

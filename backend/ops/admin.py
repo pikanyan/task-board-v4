@@ -55,15 +55,14 @@ class OrderLineAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(models.TaskKey)
-class TaskKeyAdmin(admin.ModelAdmin):
-    list_display = ("id", "assignment", "pickup_at_local")
-
-    def pickup_at_local(self, obj):
-        return format_dt_jst(obj.pickup_at)
-
-
-
 @admin.register(models.Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("id", "task_key", "required_units", "status")
+    list_display =\
+    (
+        "id",
+        "assignment",
+        "pickup_at",
+        "required_units",
+        "started_at",
+        "finished_at",
+    )
