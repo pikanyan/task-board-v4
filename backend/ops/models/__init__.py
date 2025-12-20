@@ -6,5 +6,4 @@ from .department_item_assignment import DepartmentItemAssignment
 from .department_item_assignment_component import DepartmentItemAssignmentComponent
 from .order_header import OrderHeader
 from .order_line import OrderLine
-from .task_key import TaskKey
 from .task import Task

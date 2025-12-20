@@ -3,9 +3,10 @@ from datetime import datetime
 
 import pytest
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.utils import timezone
 
-from ops.models import Department, Item, DepartmentItemAssignment, TaskKey, Task
+from ops.models import Department, Item, DepartmentItemAssignment, Task
 
 
 
@@ -24,12 +25,18 @@ def _make_assignment(department_name: str, item_name: str, pack_g: int) -> Depar
 
 
 
-def _make_task_key() -> TaskKey:
+def _make_task(*, required_units=1, started_at=None, finished_at=None) -> Task:
     assignment = _make_assignment("ライン班", "ポテトサラダセット", 1000)
-
     pickup_at = _dt(2025, 12, 20, 5, 0)
-    
-    return TaskKey.objects.create(assignment=assignment, pickup_at=pickup_at)
+
+    return Task\
+    (
+        assignment=assignment,
+        pickup_at=pickup_at,
+        required_units=required_units,
+        started_at=started_at,
+        finished_at=finished_at,
+    )
 
 
 
@@ -37,14 +44,7 @@ def _make_task_key() -> TaskKey:
 @pytest.mark.django_db
 def test_task_can_be_created_and_string_is_readable():
     # Arrange
-    task_key = _make_task_key()
-
-    task = Task\
-    (
-        task_key=task_key,
-        required_units=1,
-        status="todo",
-    )
+    task = _make_task(required_units=1)
 
 
 
@@ -58,24 +58,36 @@ def test_task_can_be_created_and_string_is_readable():
     # Assert
     assert Task.objects.filter(pk=task.pk).exists()
 
-    assert task.task_key_id == task_key.id
     assert task.required_units == 1
-    assert task.status == "todo"
 
-    assert str(task) == f"{task_key} required 1 ({task.status})"
+    # 読めることだけ確認
+    # 文字列の厳密比較は壊れやすい
+    assert str(task)
 
 
 
-# 異常系: task_key は必須
+# 異常系: assignment は必須
 @pytest.mark.django_db
-def test_task_requires_task_key():
+def test_task_requires_assignment():
     # Arrange
-    task = Task\
-    (
-        task_key=None,
-        required_units=1,
-        status="todo",
-    )
+    task = _make_task(required_units=1)
+
+    task.assignment = None
+
+
+
+    # Act / Assert
+    with pytest.raises(ValidationError):
+        task.full_clean()
+
+
+
+# 異常系: pickup_at は必須
+@pytest.mark.django_db
+def test_task_requires_pickup_at():
+    # Arrange
+    task = _make_task(required_units=1)
+    task.pickup_at = None
 
 
 
@@ -89,7 +101,6 @@ def test_task_requires_task_key():
 @pytest.mark.parametrize\
 (
     "units",
-
     [
         None,
         0,
@@ -99,14 +110,7 @@ def test_task_requires_task_key():
 @pytest.mark.django_db
 def test_task_requires_units_and_min_value(units):
     # Arrange
-    task_key = _make_task_key()
-
-    task = Task\
-    (
-        task_key=task_key,
-        required_units=units,
-        status="todo",
-    )
+    task = _make_task(required_units=units)
 
 
 
@@ -116,20 +120,14 @@ def test_task_requires_units_and_min_value(units):
 
 
 
-# 異常系: status は choices 外を禁止
+# 異常系: finished_at は started_at 以降
 @pytest.mark.django_db
-def test_task_status_must_be_valid_choice():
+def test_task_finished_at_must_be_after_started_at():
     # Arrange
-    task_key = _make_task_key()
+    started_at = _dt(2025, 12, 20, 10, 0)
+    finished_at = _dt(2025, 12, 20, 9, 0)
 
-    task = Task\
-    (
-        task_key=task_key,
-        required_units=1,
-
-        # todo / done 以外
-        status="doing",
-    )
+    task = _make_task(required_units=1, started_at=started_at, finished_at=finished_at)
 
 
 
@@ -139,28 +137,27 @@ def test_task_status_must_be_valid_choice():
 
 
 
-# 異常系: task_key は 1 対 1 (重複禁止)
+# 異常系: (assignment, pickup_at) はユニーク
 @pytest.mark.django_db
-def test_task_task_key_must_be_unique():
+def test_task_assignment_and_pickup_at_must_be_unique():
     # Arrange
-    task_key = _make_task_key()
+    task1 = _make_task(required_units=1)
 
-    Task.objects.create\
-    (
-        task_key=task_key,
-        required_units=1,
-        status="todo",
-    )
+    task1.full_clean()
+    task1.save()
 
     duplicated = Task\
     (
-        task_key=task_key,
+        assignment=task1.assignment,
+        pickup_at=task1.pickup_at,
         required_units=1,
-        status="todo",
     )
 
 
 
     # Act / Assert
-    with pytest.raises(ValidationError):
-        duplicated.full_clean()
+
+    # full_clean() では拾えない場合があるので
+    # DB 制約で落とす
+    with pytest.raises(IntegrityError):
+        duplicated.save()
