@@ -61,8 +61,17 @@ class TaskAdmin(admin.ModelAdmin):
     (
         "id",
         "assignment",
-        "pickup_at",
+        "pickup_at_local",
         "required_units",
-        "started_at",
-        "finished_at",
+        "started_at_local",
+        "finished_at_local",
     )
+
+    def pickup_at_local(self, obj):
+        return format_dt_jst(obj.pickup_at)
+
+    def started_at_local(self, obj):
+        return "-" if obj.started_at is None else format_dt_jst(obj.started_at)
+
+    def finished_at_local(self, obj):
+        return "-" if obj.finished_at is None else format_dt_jst(obj.finished_at)
