@@ -2,76 +2,166 @@
     {
         "model": "ops.task",
         "pk": 1,
-        "fields": { "task_key": 1, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 1,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 2,
-        "fields": { "task_key": 2, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 2,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 3,
-        "fields": { "task_key": 3, "required_units": 2, "status": "todo" }
+        "fields": {
+            "assignment": 3,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 2,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 4,
-        "fields": { "task_key": 4, "required_units": 2, "status": "todo" }
+        "fields": {
+            "assignment": 4,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 2,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 5,
-        "fields": { "task_key": 5, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 5,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 6,
-        "fields": { "task_key": 6, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 6,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 7,
-        "fields": { "task_key": 7, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 7,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 8,
-        "fields": { "task_key": 8, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 8,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 9,
-        "fields": { "task_key": 9, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 9,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 10,
-        "fields": { "task_key": 10, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 10,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 11,
-        "fields": { "task_key": 11, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 11,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 12,
-        "fields": { "task_key": 12, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 12,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 13,
-        "fields": { "task_key": 13, "required_units": 1, "status": "todo" }
+        "fields": {
+            "assignment": 13,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 1,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 14,
-        "fields": { "task_key": 14, "required_units": 2, "status": "todo" }
+        "fields": {
+            "assignment": 14,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 2,
+            "started_at": null,
+            "finished_at": null
+        }
     },
     {
         "model": "ops.task",
         "pk": 15,
-        "fields": { "task_key": 15, "required_units": 2, "status": "todo" }
+        "fields": {
+            "assignment": 15,
+            "pickup_at": "2025-12-21T05:00:00+09:00",
+            "required_units": 2,
+            "started_at": null,
+            "finished_at": null
+        }
     }
 ]
