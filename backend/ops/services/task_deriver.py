@@ -37,18 +37,10 @@ shell ではなく
 
 @transaction.atomic
 def derive_tasks_for_order_header(*, order_header_id: int) -> None:
-    """
-    OrderLine の product_item に対応する assignment を 1 段だけ探して Task を作る
-
-    NOTE: Component 展開は未実装
-    """
     header =\
     (
         # FROM order_header
         OrderHeader.objects
-
-        # JOIN customer ON customer.id = order_header.customer_id;
-        .select_related("customer")
 
         # 一気に取得することで N+1 回避
         # lines は OrderLine への逆参照
@@ -62,96 +54,79 @@ def derive_tasks_for_order_header(*, order_header_id: int) -> None:
 
 
 
-    # (assignment_id -> required_units) を集計してから Task を upsert
     required_by_assignment_id: dict[int, int] = defaultdict(int)
+
+    # {}
+    # print(required_by_assignment_id)
 
 
 
     for line in header.lines.all():
-        # filter() は検索条件を作成しただけであり
-        # 1 件のレコードは未確定
         qs = DepartmentItemAssignment.objects.filter(item=line.product_item)
-
-
 
         if not qs.exists():
             raise ValidationError(f"DepartmentItemAssignment not found for item={line.product_item.id}")
-
+        
         if 1 < qs.count():
             raise ValidationError(f"DepartmentItemAssignment is ambiguous for item={line.product_item.id}")
+        
+        root_asg = qs.get()
+
+        
+
+        # スタックで段数無限に展開
+        stack: list[tuple[int, int]] = [(root_asg.id, line.quantity_units)]
+
+        # [(1, 5)]
+        # print(stack)
+
+        while stack:
+            parent_asg_id, parent_units = stack.pop()
+
+            # 1 5
+            # 2 5
+            # 3 5
+            # 4 5
+            # print(parent_asg_id, parent_units)
 
 
 
-        # get() でレコードを 1 件取得
-        parent_asg = qs.get()
+            # この親の分を加算
+            required_by_assignment_id[parent_asg_id] += parent_units
+
+            # 親 -> 子 を辿って次に積む
+            comps = DepartmentItemAssignmentComponent.objects.filter\
+            (
+                parent_department_item_assignment_id=parent_asg_id
+            )
+
+            for comp in comps:
+                child_asg_id = comp.child_department_item_assignment_id
+
+                child_units = parent_units * comp.child_units_per_parent_unit
+
+                stack.append((child_asg_id, child_units))
+
+                # [(2, 5)]
+                # [(3, 5)]
+                # [(4, 5)]
+                # print(stack)
+
+        # []
+        # print(stack)
 
 
 
-        line_units = line.quantity_units
+    # {1: 5, 2: 5, 3: 5, 4: 5}
+    # print(required_by_assignment_id)
 
-        # 上書きではなく加算
-        # 複数行や将来の合算に耐える
-
-        # 0 段目: root
-        required_by_assignment_id[parent_asg.id] += line_units
-
-
-
-        # {1: 3}
-        # print(required_by_assignment_id)
-
-
-
-        # 1 段目: child
-        comps_lv1 =\
+    for assignment_id, required_units in required_by_assignment_id.items():
+        Task.objects.update_or_create\
         (
-            DepartmentItemAssignmentComponent.objects
-
-            # FK で繋がっている相手を JOIN で先取りし
-            # 追加の SQL を防止
-            .select_related("child_department_item_assignment")
-            .filter(parent_department_item_assignment=parent_asg)
+            assignment_id=assignment_id,
+            pickup_at=pickup_at,
+            defaults={"required_units": required_units},
         )
-        for c1 in comps_lv1:
-            child_asg = c1.child_department_item_assignment
-
-            child_units = line_units * c1.child_units_per_parent_unit
-
-            required_by_assignment_id[child_asg.id] += child_units
-
-
-
-            # 2 段目: grandchild
-            comps_lv2 =\
-            (
-                DepartmentItemAssignmentComponent.objects
-                .select_related("child_department_item_assignment")
-                .filter(parent_department_item_assignment=child_asg)
-            )
-            for c2 in comps_lv2:
-                grand_asg = c2.child_department_item_assignment
-
-                required_by_assignment_id[grand_asg.id] += child_units * c2.child_units_per_parent_unit
-
-
-
-        # {1: 3, 2: 3, 3: 3}
-        # print(required_by_assignment_id)
-
-
-
-         # 集計結果を Task に反映
-        for assignment_id, required_units in required_by_assignment_id.items():
-            Task.objects.update_or_create\
-            (
-                # レコードを探す為の複合 key (assignment, pickup_at)
-                assignment_id=assignment_id,
-                pickup_at=pickup_at,
-
-                # 値を更新
-                defaults={"required_units": required_units},
-            )
-
 
 
 
