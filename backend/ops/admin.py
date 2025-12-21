@@ -75,3 +75,16 @@ class TaskAdmin(admin.ModelAdmin):
 
     def finished_at_local(self, obj):
         return "-" if obj.finished_at is None else format_dt_jst(obj.finished_at)
+
+
+
+@admin.register(models.TaskPlan)
+class TaskPlanAdmin(admin.ModelAdmin):
+    list_display =\
+    (
+        "id",
+        "task",
+        "planned_started_at",
+        "planned_finished_at",
+        "is_feasible",
+    )
